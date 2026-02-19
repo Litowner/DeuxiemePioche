@@ -33,7 +33,7 @@ $produits = [
     ],
     [
         "id" => 3,
-        "nom" => "Montre Vintage",
+        "nom" => "Accessoires",
         "prix" => 29.99,
         "image" => "assets/images/accessoires.jpg",
         "tag" => "Enfants"
