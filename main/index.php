@@ -111,7 +111,7 @@ if ($tagSelectionne) {
         <span>Politique de confidentialité</span>
         <span>Concept</span>
     </div>
-    <p>© 2008-2026 2eme-pioche Service SA tous droits réservés</p>
+    <p>© 2008-2026 2eme-pioche tous droits réservés</p>
 </footer>
 
 </body>
