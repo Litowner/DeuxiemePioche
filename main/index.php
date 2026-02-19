@@ -73,7 +73,9 @@ if ($tagSelectionne) {
         </div>
 
         <div class="logo">
-            <h1>2<span>ÈME</span><br>PIOCHE</h1>
+            <a href="index.php">
+                <img src="assets/images/logo.png" alt="2ème Pioche">
+            </a>
         </div>
 
         <div class="login">

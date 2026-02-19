@@ -64,6 +64,11 @@ body {
     font-weight: bold;
     color: #000;
 }
+.logo img{
+    height: 70px;
+    width: auto;
+    display: block;
+}
 
 /* ================= CATEGORIES ================= */
 
