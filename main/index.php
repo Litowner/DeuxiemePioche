@@ -37,7 +37,7 @@ $produits = [
     ],
     [
         "id" => 4,
-        "nom" => "Commode Design",
+        "nom" => "Mobilier",
         "image" => "assets/images/meubles.jpg",
         "tag" => "Hommes"
     ]
@@ -84,6 +84,7 @@ if ($tagSelectionne) {
     <a href="index.php?tag=Hommes" class="btn-cat">Hommes</a>
     <a href="index.php?tag=Femmes" class="btn-cat">Femmes</a>
     <a href="index.php?tag=Enfants" class="btn-cat">Enfants</a>
+    <a href="index.php" class="btn-cat">Tous</a>
 </nav>
 
 <main>
