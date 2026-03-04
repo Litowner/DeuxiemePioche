@@ -19,29 +19,25 @@ INSTRUCTIONS
 $produits = [
     [
         "id" => 1,
-        "nom" => "Veste Rouge",
-        "prix" => 49.99,
+        "nom" => "Vêtements",
         "image" => "assets/images/vetements.jpg",
         "tag" => "Femmes"
     ],
     [
         "id" => 2,
-        "nom" => "Bottes Cuir",
-        "prix" => 79.99,
+        "nom" => "Chaussures",
         "image" => "assets/images/chaussures.jpg",
         "tag" => "Hommes"
     ],
     [
         "id" => 3,
         "nom" => "Accessoires",
-        "prix" => 29.99,
         "image" => "assets/images/accessoires.jpg",
         "tag" => "Enfants"
     ],
     [
         "id" => 4,
         "nom" => "Commode Design",
-        "prix" => 149.99,
         "image" => "assets/images/meubles.jpg",
         "tag" => "Hommes"
     ]
@@ -97,7 +93,6 @@ if ($tagSelectionne) {
                 <img src="<?= $produit['image']; ?>" alt="<?= $produit['nom']; ?>">
                 <div class="overlay">
                     <h2><?= $produit['nom']; ?></h2>
-                    <p><?= number_format($produit['prix'], 2); ?> €</p>
                 </div>
             </div>
         <?php endforeach; ?>

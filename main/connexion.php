@@ -15,7 +15,9 @@
         </div>
 
         <div class="logo">
-            <h1>2<span>ÈME</span><br>PIOCHE</h1>
+            <a href="index.php">
+                <img src="assets/images/logo.png" alt="2ème Pioche">
+            </a>
         </div>
 
         <div class="login">
@@ -25,7 +27,31 @@
 </header>
 
 <main class="connexion-page">
-    <h2>Connexion (à faire)</h2>
+
+    <div class="connexion-box">
+
+        <h2>Connexion</h2>
+
+        <form action="#" method="POST">
+
+            <div class="input-group">
+                <label>Adresse mail</label>
+                <input type="email" name="email" placeholder="Votre email" required>
+            </div>
+
+            <div class="input-group">
+                <label>Mot de passe</label>
+                <input type="password" name="password" placeholder="Votre mot de passe" required>
+            </div>
+
+            <button type="submit" class="btn-login">Connexion</button>
+
+        </form>
+
+        <a href="inscription.php" class="btn-register">Pas de compte ?</a>
+
+    </div>
+
 </main>
 
 <footer>
