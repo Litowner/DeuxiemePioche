@@ -15,9 +15,7 @@
         </div>
 
         <div class="logo">
-            <a href="index.php">
-                <img src="assets/images/logo.png" alt="2ème Pioche">
-            </a>
+            <h1>2<span>ÈME</span><br>PIOCHE</h1>
         </div>
 
         <div class="login">
