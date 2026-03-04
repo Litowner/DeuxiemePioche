@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Connexion</title>
+    <title>Créer un compte</title>
     <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
@@ -30,13 +30,18 @@
 
     <div class="connexion-box">
 
-        <h2>Connexion</h2>
+        <h2>Créer un compte</h2>
 
         <form action="#" method="POST">
 
             <div class="input-group">
                 <label>Adresse mail</label>
-                <input type="email" name="email" placeholder="Votre email" required>
+                <input type="email" name="email" placeholder="Votre adresse mail" required>
+            </div>
+
+            <div class="input-group">
+                <label>Numéro de téléphone</label>
+                <input type="tel" name="telephone" placeholder="Votre numéro" required>
             </div>
 
             <div class="input-group">
@@ -44,11 +49,16 @@
                 <input type="password" name="password" placeholder="Votre mot de passe" required>
             </div>
 
-            <button type="submit" class="btn-login">Connexion</button>
+            <div class="input-group">
+                <label>Répéter le mot de passe</label>
+                <input type="password" name="confirm_password" placeholder="Répétez le mot de passe" required>
+            </div>
+
+            <button type="submit" class="btn-login">Créer le compte</button>
 
         </form>
 
-        <a href="inscription.php" class="btn-register">Pas de compte ?</a>
+        <a href="connexion.php" class="btn-register">Déjà un compte ?</a>
 
     </div>
 
