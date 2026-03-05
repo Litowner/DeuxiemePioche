@@ -145,7 +145,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
         <span>Politique de confidentialité</span>
         <span>Concept</span>
     </div>
-    <p>© 2008-2026 2eme-pioche Service SA tous droits réservés</p>
+    <p>©2026 2eme-pioche Service SA tous droits réservés</p>
 </footer>
 
 <?php if ($message): ?>

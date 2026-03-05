@@ -84,12 +84,16 @@ if ($tagSelectionne) {
 
   <nav class="drawer-links">
     <!-- placeholders -->
-    <a href="vetements.php">Vêtements</a>
-    <a href="chaussures.php">Chaussures</a>
-    <a href="accessoires.php">Accessoires</a>
-    <a href="mobilier.php">Mobilier</a>
+    <nav class="drawer-links">
+
+<a href="index.php" class="drawer-home">Accueil</a>
+
+<a href="categorie.php?cat=vetements">Vêtements</a>
+<a href="categorie.php?cat=chaussures">Chaussures</a>
+<a href="categorie.php?cat=accessoires">Accessoires</a>
+<a href="categorie.php?cat=mobilier">Mobilier</a>
     <?php if(isset($_SESSION["user_id"])): ?>
-        <a class="drawer-sep" href="mes_annonces.php">Mes annonces</a>
+        <a class="drawer-sep" href="account.php">Mes annonces</a>
         <a class="drawer-logout" href="connexion.php?logout=1">Se déconnecter</a>
     <?php endif; ?>
   </nav>

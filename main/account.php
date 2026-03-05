@@ -12,9 +12,10 @@ $success = false;
 $userId = $_SESSION["user_id"];
 $userName = $_SESSION["username"] ?? "";
 
-/* Stockage :
-   - images : assets/users/<UUID>/articles/
-   - json   : assets/data/articles.json
+/*
+  Stockage :
+  - images : assets/users/<UUID>/articles/
+  - json   : assets/data/articles.json
 */
 $baseUsersDir = __DIR__ . "/assets/users";
 $userArticlesDir = $baseUsersDir . "/" . $userId . "/articles";
@@ -42,19 +43,23 @@ function readJsonArray($path) {
 
 function writeJsonArray($path, $arr) {
     $json = json_encode($arr, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+
     $fp = fopen($path, "c+");
     if (!$fp) return false;
+
     if (!flock($fp, LOCK_EX)) { fclose($fp); return false; }
 
     ftruncate($fp, 0);
     rewind($fp);
     fwrite($fp, $json);
     fflush($fp);
+
     flock($fp, LOCK_UN);
     fclose($fp);
     return true;
 }
 
+/* ===================== Création article ===================== */
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $titre = trim($_POST["titre"] ?? "");
     $description = trim($_POST["description"] ?? "");
@@ -72,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } elseif (!isset($_FILES["image"]) || $_FILES["image"]["error"] !== UPLOAD_ERR_OK) {
         $message = "Veuillez ajouter une image valide.";
     } else {
-        // Préparer les dossiers de stockage
+        // Préparer dossier utilisateur
         if (!is_dir($baseUsersDir)) {
             $message = "Dossier assets/users introuvable.";
         } else {
@@ -101,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     if (!move_uploaded_file($tmp, $destPath)) {
                         $message = "Erreur lors de l'upload de l'image.";
                     } else {
-                        // JSON : s'assurer que assets/data existe
+                        // s'assurer que assets/data existe
                         $dataDir = dirname($jsonPath);
                         if (!is_dir($dataDir)) {
                             @mkdir($dataDir, 0755, true);
@@ -137,6 +142,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 }
+
+/* ===================== Mes articles ===================== */
+$allArticles = readJsonArray($jsonPath);
+$myArticles = [];
+
+foreach ($allArticles as $a) {
+    if (($a["user_id"] ?? "") === $userId) {
+        $myArticles[] = $a;
+    }
+}
+
+// (optionnel) tri du plus récent au plus ancien si created_at existe
+usort($myArticles, function($a, $b){
+    return strcmp(($b["created_at"] ?? ""), ($a["created_at"] ?? ""));
+});
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -179,62 +199,97 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </div>
 
         <nav class="drawer-links">
-            <a href="vetements.php">Vêtements</a>
-            <a href="chaussures.php">Chaussures</a>
-            <a href="accessoires.php">Accessoires</a>
-            <a href="mobilier.php">Mobilier</a>
+            <a href="categorie.php?cat=vetements">Vêtements</a>
+            <a href="categorie.php?cat=chaussures">Chaussures</a>
+            <a href="categorie.php?cat=accessoires">Accessoires</a>
+            <a href="categorie.php?cat=mobilier">Mobilier</a>
 
             <a class="drawer-sep" href="account.php">Mon compte</a>
             <a class="drawer-logout" href="connexion.php?logout=1">Déconnexion</a>
         </nav>
     </aside>
+
 </header>
 
-<main class="connexion-page">
-    <div class="connexion-box">
+<main class="account-page">
 
-        <h2>Créer un article</h2>
+    <section class="connexion-page">
+        <div class="connexion-box">
 
-        <form action="account.php" method="POST" enctype="multipart/form-data" autocomplete="on">
+            <h2>Créer un article</h2>
 
-            <div class="input-group">
-                <label>Titre</label>
-                <input type="text" name="titre" placeholder="Ex: Manteau en laine" required
-                       value="<?= htmlspecialchars($_POST["titre"] ?? ""); ?>">
+            <form action="account.php" method="POST" enctype="multipart/form-data" autocomplete="on">
+
+                <div class="input-group">
+                    <label>Titre</label>
+                    <input type="text" name="titre" placeholder="Ex: Manteau en laine" required
+                           value="<?= htmlspecialchars($_POST["titre"] ?? ""); ?>">
+                </div>
+
+                <div class="input-group">
+                    <label>Description</label>
+                    <textarea name="description" rows="4" placeholder="Décrivez votre article" required
+                              style="width:100%;padding:10px;border-radius:6px;border:1px solid #ccc;"><?= htmlspecialchars($_POST["description"] ?? ""); ?></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label>Prix (CHF)</label>
+                    <input type="number" step="0.01" min="0" name="prix" placeholder="Ex: 25.00" required
+                           value="<?= htmlspecialchars($_POST["prix"] ?? ""); ?>">
+                </div>
+
+                <div class="input-group">
+                    <label>Catégorie</label>
+                    <select name="categorie" required style="width:100%;padding:10px;border-radius:6px;border:1px solid #ccc;">
+                        <option value="" disabled <?= empty($_POST["categorie"]) ? "selected" : ""; ?>>Choisir une catégorie</option>
+                        <option value="Chaussures"  <?= (($_POST["categorie"] ?? "") === "Chaussures") ? "selected" : ""; ?>>Chaussure</option>
+                        <option value="Vêtements"   <?= (($_POST["categorie"] ?? "") === "Vêtements") ? "selected" : ""; ?>>Vêtement</option>
+                        <option value="Mobilier"    <?= (($_POST["categorie"] ?? "") === "Mobilier") ? "selected" : ""; ?>>Mobilier</option>
+                        <option value="Accessoires" <?= (($_POST["categorie"] ?? "") === "Accessoires") ? "selected" : ""; ?>>Accessoires</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Image</label>
+                    <input type="file" name="image" accept=".jpg,.jpeg,.png,.webp" required>
+                </div>
+
+                <button type="submit" class="btn-login">Publier l'article</button>
+
+            </form>
+
+        </div>
+    </section>
+
+    <!-- Mes articles -->
+    <section class="my-articles">
+        <div class="my-articles-head">
+            <h2>Mes articles</h2>
+        </div>
+
+        <?php if (empty($myArticles)): ?>
+            <p class="my-articles-empty">Vous n'avez pas encore publié d'article.</p>
+        <?php else: ?>
+            <div class="my-articles-grid">
+                <?php foreach ($myArticles as $a): ?>
+                    <article class="my-article-card">
+                        <div class="my-article-img">
+                            <img src="<?= htmlspecialchars($a["image"] ?? "") ?>" alt="<?= htmlspecialchars($a["titre"] ?? "") ?>">
+                        </div>
+                        <div class="my-article-info">
+                            <h3><?= htmlspecialchars($a["titre"] ?? "") ?></h3>
+                            <div class="my-article-meta">
+                                <span><?= htmlspecialchars($a["categorie"] ?? "") ?></span>
+                                <strong>CHF <?= htmlspecialchars($a["prix"] ?? "0.00") ?></strong>
+                            </div>
+                            <a class="buy-btn" href="article.php?id=<?= urlencode($a["id"]) ?>">Consulter</a>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
             </div>
+        <?php endif; ?>
+    </section>
 
-            <div class="input-group">
-                <label>Description</label>
-                <textarea name="description" rows="4" placeholder="Décrivez votre article" required style="width:100%;padding:10px;border-radius:6px;border:1px solid #ccc;"><?= htmlspecialchars($_POST["description"] ?? ""); ?></textarea>
-            </div>
-
-            <div class="input-group">
-                <label>Prix (CHF)</label>
-                <input type="number" step="0.01" min="0" name="prix" placeholder="Ex: 25.00" required
-                       value="<?= htmlspecialchars($_POST["prix"] ?? ""); ?>">
-            </div>
-
-            <div class="input-group">
-                <label>Catégorie</label>
-                <select name="categorie" required style="width:100%;padding:10px;border-radius:6px;border:1px solid #ccc;">
-                    <option value="" disabled <?= empty($_POST["categorie"]) ? "selected" : ""; ?>>Choisir une catégorie</option>
-                    <option value="Chaussures"  <?= (($_POST["categorie"] ?? "") === "Chaussures") ? "selected" : ""; ?>>Chaussure</option>
-                    <option value="Vêtements"   <?= (($_POST["categorie"] ?? "") === "Vêtements") ? "selected" : ""; ?>>Vêtement</option>
-                    <option value="Mobilier"    <?= (($_POST["categorie"] ?? "") === "Mobilier") ? "selected" : ""; ?>>Mobilier</option>
-                    <option value="Accessoires" <?= (($_POST["categorie"] ?? "") === "Accessoires") ? "selected" : ""; ?>>Accessoires</option>
-                </select>
-            </div>
-
-            <div class="input-group">
-                <label>Image</label>
-                <input type="file" name="image" accept=".jpg,.jpeg,.png,.webp" required>
-            </div>
-
-            <button type="submit" class="btn-login">Publier l'article</button>
-
-        </form>
-
-    </div>
 </main>
 
 <footer>
