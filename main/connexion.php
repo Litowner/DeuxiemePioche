@@ -98,10 +98,14 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
         </div>
 
         <nav class="drawer-links">
-            <a href="index.php?categorie=Vetements">Vêtements</a>
-            <a href="index.php?categorie=Chaussures">Chaussures</a>
-            <a href="index.php?categorie=Accessoires">Accessoires</a>
-            <a href="index.php?categorie=Mobilier">Mobilier</a>
+
+            <a href="index.php" class="drawer-home">Accueil</a>
+
+            <a href="categorie.php?cat=vetements">Vêtements</a>
+            <a href="categorie.php?cat=chaussures">Chaussures</a>
+            <a href="categorie.php?cat=accessoires">Accessoires</a>
+            <a href="categorie.php?cat=mobilier">Mobilier</a>
+            
 
             <?php if(isset($_SESSION["user_id"])): ?>
                 <a class="drawer-sep" href="account.php">Mon compte</a>

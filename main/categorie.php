@@ -90,6 +90,9 @@ if (file_exists($jsonPath)) {
 
 <nav class="drawer-links">
 
+<!-- Accueil ajouté ici -->
+<a href="index.php" class="drawer-home">Accueil</a>
+
 <?php foreach($categories as $slug => $cat): ?>
 
 <a href="categorie.php?cat=<?= $slug ?>">
@@ -148,9 +151,7 @@ if (file_exists($jsonPath)) {
 <article class="product-card">
 
 <div class="product-img">
-
 <img src="<?= htmlspecialchars($a["image"]) ?>">
-
 </div>
 
 <div class="product-info">
