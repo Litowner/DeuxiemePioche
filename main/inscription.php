@@ -64,6 +64,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         } else {
             $id = generateUUID();
             $hash = password_hash($password, PASSWORD_DEFAULT);
+            
+            $userDir = __DIR__ . "/assets/users/" . $id;
+
+            if (!is_dir($userDir)) {
+                mkdir($userDir, 0755, true);
+            }
+
+            
 
             $fp = fopen($csvPath, "a");
             if (!$fp) {

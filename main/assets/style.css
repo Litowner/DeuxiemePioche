@@ -344,3 +344,150 @@ footer{
 .drawer-sep{
   margin-top:8px;
 }
+
+/* ================= VETEMENTS PAGE ================= */
+
+.vetements-page{
+  background:#efefef;
+  padding-bottom: 10px;
+}
+
+/* HERO */
+.vetements-hero{
+  width: min(780px, 92%);
+  margin: 20px auto 10px;
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+}
+
+.vetements-hero img{
+  width:100%;
+  height: 240px;
+  object-fit: cover;
+}
+
+.vetements-hero h1{
+  position:absolute;
+  left:18px;
+  bottom:14px;
+  color:#fff;
+  font-size: 46px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-shadow: 0 3px 10px rgba(0,0,0,0.55);
+}
+
+/* Layout */
+.vetements-layout{
+  width: min(900px, 92%);
+  margin: 10px auto 30px;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+/* Sidebar */
+.vetements-sidebar{
+  padding: 10px 0;
+  color:#222;
+}
+
+.side-link{
+  display:block;
+  padding: 14px 0;
+  text-decoration:none;
+  color:#222;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(0,0,0,0.10);
+}
+
+.side-link:last-child{
+  border-bottom:none;
+}
+
+/* Products grid */
+.vetements-products{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 26px;
+  align-items: start;
+}
+
+.product-card{
+  background:#fff;
+  border: 1px solid rgba(0,0,0,0.10);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  overflow:hidden;
+}
+
+.product-img{
+  width:100%;
+  height: 310px;
+  background:#fff;
+}
+
+.product-img img{
+  width:100%;
+  height:100%;
+  object-fit: cover;
+}
+
+.product-info{
+  text-align:center;
+  padding: 12px 14px 14px;
+}
+
+.product-info h3{
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.product-price{
+  font-size: 20px;
+  font-weight: 900;
+  color: #d40000;
+  margin-bottom: 10px;
+}
+
+.buy-btn{
+  display:inline-block;
+  width: 78%;
+  padding: 10px 12px;
+  font-weight: 800;
+  border: 1px solid rgba(0,0,0,0.18);
+  text-decoration:none;
+  color:#000;
+  background: linear-gradient(to right, #cde2db, #f4b7a6);
+}
+
+/* Responsive */
+@media (max-width: 900px){
+  .vetements-layout{
+    grid-template-columns: 1fr;
+  }
+
+  .vetements-sidebar{
+    width: min(520px, 100%);
+    margin: 0 auto;
+  }
+
+  .vetements-products{
+    grid-template-columns: 1fr;
+    width: min(520px, 100%);
+    margin: 0 auto;
+  }
+
+  .vetements-hero h1{
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 420px){
+  .vetements-hero img{ height: 210px; }
+  .vetements-hero h1{ font-size: 34px; }
+  .product-img{ height: 280px; }
+}
