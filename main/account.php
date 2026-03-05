@@ -244,7 +244,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <span>Politique de confidentialité</span>
         <span>Concept</span>
     </div>
-    <p>© 2008-2026 2eme-pioche Service SA tous droits réservés</p>
+    <p>©2026 2eme-pioche Service SA tous droits réservés</p>
 </footer>
 
 <?php if ($message !== ""): ?>

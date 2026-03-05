@@ -83,11 +83,11 @@ if ($tagSelectionne) {
   </div>
 
   <nav class="drawer-links">
-    <!-- Liens placeholders : adapte les href si tu veux des pages dédiées -->
+    <!-- placeholders -->
     <a href="vetements.php">Vêtements</a>
-    <a href="index.php?categorie=Chaussures">Chaussures</a>
-    <a href="index.php?categorie=Accessoires">Accessoires</a>
-    <a href="index.php?categorie=Mobilier">Mobilier</a>
+    <a href="chaussures.php">Chaussures</a>
+    <a href="accessoires.php">Accessoires</a>
+    <a href="mobilier.php">Mobilier</a>
     <?php if(isset($_SESSION["user_id"])): ?>
         <a class="drawer-sep" href="mes_annonces.php">Mes annonces</a>
         <a class="drawer-logout" href="connexion.php?logout=1">Se déconnecter</a>

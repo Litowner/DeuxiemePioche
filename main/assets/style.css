@@ -408,14 +408,67 @@ footer{
   border-bottom:none;
 }
 
-/* Products grid */
-.vetements-products{
-  display:grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 26px;
+/* ===== Layout catégorie (hero + sidebar + produits) ===== */
+.vetements-page{
+  background:#efefef;
+  padding-bottom: 10px;
+}
+
+.vetements-hero{
+  width: min(780px, 92%);
+  margin: 20px auto 10px;
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+}
+
+.vetements-hero img{
+  width:100%;
+  height: 210px;
+  object-fit: cover;
+}
+
+.vetements-hero h1{
+  position:absolute;
+  left:18px;
+  bottom:14px;
+  color:#fff;
+  font-size: 44px;
+  font-weight: 800;
+  text-shadow: 0 3px 10px rgba(0,0,0,0.55);
+}
+
+/* ✅ Disposition identique à ta capture */
+.vetements-layout{
+  width: min(980px, 92%);
+  margin: 10px auto 30px;
+  display: grid;
+  grid-template-columns: 240px 1fr; /* sidebar à gauche, produits à droite */
+  gap: 28px;
   align-items: start;
 }
 
+.vetements-sidebar{
+  padding: 10px 0;
+}
+
+.side-link{
+  display:block;
+  padding: 12px 0;
+  text-decoration:none;
+  color:#222;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(0,0,0,0.10);
+}
+
+.vetements-products{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr); /* ✅ 2 cartes côte à côte */
+  gap: 26px;
+}
+
+/* Cartes */
 .product-card{
   background:#fff;
   border: 1px solid rgba(0,0,0,0.10);
@@ -426,7 +479,6 @@ footer{
 .product-img{
   width:100%;
   height: 310px;
-  background:#fff;
 }
 
 .product-img img{
@@ -462,6 +514,16 @@ footer{
   text-decoration:none;
   color:#000;
   background: linear-gradient(to right, #cde2db, #f4b7a6);
+}
+
+/* Mobile : sidebar au-dessus + 1 colonne produits */
+@media (max-width: 900px){
+  .vetements-layout{
+    grid-template-columns: 1fr;
+  }
+  .vetements-products{
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Responsive */

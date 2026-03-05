@@ -1,0 +1,24 @@
+[
+    {
+        "id": "5c00843c-a198-418b-b773-3870acdccbcd",
+        "user_id": "812a309d-44d7-4427-8ac9-9313718144a7",
+        "username": "paul",
+        "titre": "Veste en cuire",
+        "description": "Je ne decris rien",
+        "prix": "130.00",
+        "categorie": "Chaussures",
+        "image": "assets\/users\/812a309d-44d7-4427-8ac9-9313718144a7\/articles\/5c00843c-a198-418b-b773-3870acdccbcd_logo.png",
+        "created_at": "2026-03-05 10:37:02"
+    },
+    {
+        "id": "75511830-1974-48ac-80cb-acf6cd339701",
+        "user_id": "812a309d-44d7-4427-8ac9-9313718144a7",
+        "username": "paul",
+        "titre": "Manteau en laine",
+        "description": "de qualité",
+        "prix": "29.00",
+        "categorie": "Vêtements",
+        "image": "assets\/users\/812a309d-44d7-4427-8ac9-9313718144a7\/articles\/75511830-1974-48ac-80cb-acf6cd339701_chausssures.jpg",
+        "created_at": "2026-03-05 10:44:28"
+    }
+]
