@@ -16,7 +16,7 @@ $categories = [
     ],
     "mobilier" => [
         "label" => "Mobilier",
-        "image" => "assets/images/mobilier.jpg"
+        "image" => "assets/images/meubles.jpg"
     ]
 ];
 

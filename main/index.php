@@ -128,13 +128,23 @@ if ($tagSelectionne) {
 
 <main>
     <section class="catalogue">
-        <?php foreach ($produits as $produit): ?>
-            <div class="card">
-                <img src="<?= $produit['image']; ?>" alt="<?= $produit['nom']; ?>">
-                <div class="overlay">
-                    <h2><?= $produit['nom']; ?></h2>
-                </div>
+        <?php foreach ($produits as $produit): 
+            $slug = strtolower($produit["nom"]); 
+                $map = [
+                "vêtements" => "vetements",
+                "vetements" => "vetements",
+                "chaussures" => "chaussures",
+                "accessoires" => "accessoires",
+                "mobilier" => "mobilier",
+                ];
+            $slug = $map[$slug] ?? "vetements";
+         ?>
+        <a class="card" href="categorie.php?cat=<?= urlencode($slug) ?>">
+                <img src="<?= htmlspecialchars($produit['image']); ?>" alt="<?= htmlspecialchars($produit['nom']); ?>">
+            <div class="overlay">
+                <h2><?= htmlspecialchars($produit['nom']); ?></h2>
             </div>
+        </a>
         <?php endforeach; ?>
     </section>
 </main>
