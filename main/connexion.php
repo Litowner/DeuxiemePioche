@@ -5,6 +5,7 @@ $message = "";
 
 // Déconnexion
 if (isset($_GET["logout"])) {
+    $_SESSION = [];
     session_destroy();
     header("Location: connexion.php");
     exit;
@@ -18,7 +19,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     $content = file_get_contents("assets/data/users.csv");
     $lines = explode("\n", $content);
 
-    // delimiteur CSV
+    // delimiteur CSV (mets ";" si ton fichier est en point-virgule)
     $delimiter = ",";
 
     // On saute le header (ligne 0)
@@ -29,16 +30,15 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
 
         $data = str_getcsv($line, $delimiter);
 
-        // Sécurité : évite erreurs si ligne incomplète
+        // Attendu : id,username,email,telephone,password_hash,created_at
         if (count($data) < 5) continue;
 
-        $uuid = trim($data[0]);         // id (UUID)
-        $username = trim($data[1]);     // username (colonne 2)
-        $csvEmail = trim($data[2]);      // email (colonne 3)
-        $hash = trim($data[4]);          // password_hash (colonne 5)
-        
-        if (strtolower($email) === strtolower($csvEmail) && password_verify($password, $hash)) {
+        $uuid = trim($data[0]);          // UUID
+        $username = trim($data[1]);      // username
+        $csvEmail = trim($data[2]);      // email
+        $hash = trim($data[4]);          // password_hash
 
+        if (strtolower($email) === strtolower($csvEmail) && password_verify($password, $hash)) {
             $_SESSION["user_id"] = $uuid;
             $_SESSION["user_email"] = $csvEmail;
             $_SESSION["username"] = $username;
@@ -56,6 +56,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
     <link rel="stylesheet" href="assets/style.css">
 </head>
@@ -63,9 +64,12 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
 
 <header>
     <div class="top-bar">
+
         <div class="menu-left">
-            <span>Menu</span>
-            <div class="burger"></div>
+            <button class="burger-btn" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span>Menu</span>
+                <span class="burger"></span>
+            </button>
         </div>
 
         <div class="logo">
@@ -75,9 +79,37 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
         </div>
 
         <div class="login">
-            <a href="connexion.php">Se connecter</a>
+            <?php if(isset($_SESSION["username"])): ?>
+                <a href="account.php"><?= htmlspecialchars($_SESSION["username"]); ?></a>
+            <?php else: ?>
+                <a href="connexion.php">Se connecter</a>
+            <?php endif; ?>
         </div>
+
     </div>
+
+    <!-- Overlay + Drawer -->
+    <div class="menu-overlay" id="menuOverlay" hidden></div>
+
+    <aside class="menu-drawer" id="menuDrawer" aria-hidden="true">
+        <div class="drawer-top">
+            <strong>Menu</strong>
+            <button class="drawer-close" type="button" aria-label="Fermer le menu">✕</button>
+        </div>
+
+        <nav class="drawer-links">
+            <a href="index.php?categorie=Vetements">Vêtements</a>
+            <a href="index.php?categorie=Chaussures">Chaussures</a>
+            <a href="index.php?categorie=Accessoires">Accessoires</a>
+            <a href="index.php?categorie=Mobilier">Mobilier</a>
+
+            <?php if(isset($_SESSION["user_id"])): ?>
+                <a class="drawer-sep" href="account.php">Mon compte</a>
+                <a class="drawer-logout" href="connexion.php?logout=1">Déconnexion</a>
+            <?php endif; ?>
+        </nav>
+    </aside>
+
 </header>
 
 <main class="connexion-page">
@@ -121,6 +153,43 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
 alert("<?= addslashes($message) ?>");
 </script>
 <?php endif; ?>
+
+<script>
+(function(){
+  const btn = document.querySelector('.burger-btn');
+  const drawer = document.getElementById('menuDrawer');
+  const overlay = document.getElementById('menuOverlay');
+  const closeBtn = document.querySelector('.drawer-close');
+
+  if(!btn || !drawer || !overlay || !closeBtn) return;
+
+  function openMenu(){
+    drawer.classList.add('is-open');
+    overlay.hidden = false;
+    drawer.setAttribute('aria-hidden', 'false');
+    btn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu(){
+    drawer.classList.remove('is-open');
+    overlay.hidden = true;
+    drawer.setAttribute('aria-hidden', 'true');
+    btn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  btn.addEventListener('click', openMenu);
+  closeBtn.addEventListener('click', closeMenu);
+  overlay.addEventListener('click', closeMenu);
+
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape') closeMenu();
+  });
+
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+})();
+</script>
 
 </body>
 </html>

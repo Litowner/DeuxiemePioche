@@ -15,6 +15,7 @@ INSTRUCTIONS
    index.php?tag=Hommes
 ===========================================
 */
+session_start();
 
 $produits = [
     [
@@ -60,14 +61,39 @@ if ($tagSelectionne) {
     <title>2ème Pioche</title>
     <link rel="stylesheet" href="assets/style.css">
 </head>
+
 <body>
 
 <header>
     <div class="top-bar">
         <div class="menu-left">
-            <span>Menu</span>
-            <div class="burger"></div>
-        </div>
+  <button class="burger-btn" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
+    <span>Menu</span>
+    <span class="burger"></span>
+  </button>
+</div>
+
+<!-- Overlay + Drawer -->
+<div class="menu-overlay" id="menuOverlay" hidden></div>
+
+<aside class="menu-drawer" id="menuDrawer" aria-hidden="true">
+  <div class="drawer-top">
+    <strong>Menu</strong>
+    <button class="drawer-close" type="button" aria-label="Fermer le menu">✕</button>
+  </div>
+
+  <nav class="drawer-links">
+    <!-- Liens placeholders : adapte les href si tu veux des pages dédiées -->
+    <a href="index.php?categorie=Vetements">Vêtements</a>
+    <a href="index.php?categorie=Chaussures">Chaussures</a>
+    <a href="index.php?categorie=Accessoires">Accessoires</a>
+    <a href="index.php?categorie=Mobilier">Mobilier</a>
+    <?php if(isset($_SESSION["user_id"])): ?>
+        <a class="drawer-sep" href="mes_annonces.php">Mes annonces</a>
+        <a class="drawer-logout" href="connexion.php?logout=1">Se déconnecter</a>
+    <?php endif; ?>
+  </nav>
+</aside>
 
         <div class="logo">
             <a href="index.php">
@@ -76,8 +102,16 @@ if ($tagSelectionne) {
         </div>
 
         <div class="login">
-            <a href="connexion.php">Se connecter</a>
-        </div>
+            <?php if(isset($_SESSION["username"])): ?>
+
+        <a href="account.php"><?= htmlspecialchars($_SESSION["username"]) ?></a>
+
+<?php else: ?>
+
+    <a href="connexion.php">Se connecter</a>
+
+<?php endif; ?>
+</div>
     </div>
 </header>
 
@@ -110,6 +144,42 @@ if ($tagSelectionne) {
     </div>
     <p>© 2026 2eme-pioche tous droits réservés</p>
 </footer>
+<script>
+(function(){
+  const btn = document.querySelector('.burger-btn');
+  const drawer = document.getElementById('menuDrawer');
+  const overlay = document.getElementById('menuOverlay');
+  const closeBtn = document.querySelector('.drawer-close');
 
+  if(!btn || !drawer || !overlay || !closeBtn) return;
+
+  function openMenu(){
+    drawer.classList.add('is-open');
+    overlay.hidden = false;
+    drawer.setAttribute('aria-hidden', 'false');
+    btn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu(){
+    drawer.classList.remove('is-open');
+    overlay.hidden = true;
+    drawer.setAttribute('aria-hidden', 'true');
+    btn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  btn.addEventListener('click', openMenu);
+  closeBtn.addEventListener('click', closeMenu);
+  overlay.addEventListener('click', closeMenu);
+
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape') closeMenu();
+  });
+
+  // Ferme le menu quand on clique sur un lien
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+})();
+</script>
 </body>
 </html>
