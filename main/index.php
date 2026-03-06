@@ -4,12 +4,11 @@
 INSTRUCTIONS
 
 1. Placez vos images dans : assets/images/
-2. Modifiez le tableau $produits ci-dessous pour ajouter un produit :
+2. Modifiez le tableau $produits ci-dessous pour ajouter une catégorie :
    - id
    - nom
-   - prix
    - image (chemin relatif)
-   - tag : "Hommes", "Femmes", ou "Enfants"
+   - tags : tableau contenant "Hommes", "Femmes", et/ou "Enfants"
 
 3. Le filtrage fonctionne via l’URL :
    index.php?tag=Hommes
@@ -22,37 +21,57 @@ $produits = [
         "id" => 1,
         "nom" => "Vêtements",
         "image" => "assets/images/vetements.jpg",
-        "tag" => "Femmes"
+        "tags" => ["Hommes", "Femmes", "Enfants"]
     ],
     [
         "id" => 2,
         "nom" => "Chaussures",
         "image" => "assets/images/chaussures.jpg",
-        "tag" => "Hommes"
+        "tags" => ["Femmes", "Hommes", "Enfants"]
     ],
     [
         "id" => 3,
         "nom" => "Accessoires",
         "image" => "assets/images/accessoires.jpg",
-        "tag" => "Enfants"
+        "tags" => ["Enfants"]
     ],
     [
         "id" => 4,
         "nom" => "Mobilier",
         "image" => "assets/images/meubles.jpg",
-        "tag" => "Hommes"
-    ]
+        "tags" => ["Femmes", "Hommes"]
+    ],
+    [
+        "id" => 5,
+        "nom" => "Sport",
+        "image" => "assets/images/sport.png",
+        "tags" => ["Femmes", "Hommes"]
+    ],
+    [
+        "id" => 6,
+        "nom" => "Jouets",
+        "image" => "assets/images/jouets.png",
+        "tags" => ["Enfants"]
+    ],
+    [
+        "id" => 7,
+        "nom" => "Électronique",
+        "image" => "assets/images/electronique.png",
+        "tags" => ["Femmes", "Hommes"]
+    ],
 ];
 
 $tagSelectionne = $_GET['tag'] ?? null;
 
 if ($tagSelectionne) {
+    $tagSelectionne = trim($tagSelectionne);
     $produits = array_filter($produits, function ($produit) use ($tagSelectionne) {
-        return $produit['tag'] === $tagSelectionne;
+        $tags = $produit["tags"] ?? [];
+        if (!is_array($tags)) $tags = [$tags];
+        return in_array($tagSelectionne, $tags, true);
     });
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -67,37 +86,43 @@ if ($tagSelectionne) {
 <header>
     <div class="top-bar">
         <div class="menu-left">
-  <button class="burger-btn" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
-    <span>Menu</span>
-    <span class="burger"></span>
-  </button>
-</div>
+            <button class="burger-btn" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span>Menu</span>
+                <span class="burger"></span>
+            </button>
+        </div>
 
-<!-- Overlay + Drawer -->
-<div class="menu-overlay" id="menuOverlay" hidden></div>
+        <!-- Overlay + Drawer -->
+        <div class="menu-overlay" id="menuOverlay" hidden></div>
 
-<aside class="menu-drawer" id="menuDrawer" aria-hidden="true">
-  <div class="drawer-top">
-    <strong>Menu</strong>
-    <button class="drawer-close" type="button" aria-label="Fermer le menu">✕</button>
-  </div>
+        <aside class="menu-drawer" id="menuDrawer" aria-hidden="true">
+            <div class="drawer-top">
+                <strong>Menu</strong>
+                <button class="drawer-close" type="button" aria-label="Fermer le menu">✕</button>
+            </div>
 
-  
-    <!-- placeholders -->
-    <nav class="drawer-links">
+                <nav class="drawer-links">
 
-        <a href="index.php" class="drawer-home">Accueil</a>
+                    <a href="index.php" class="drawer-home">Accueil</a>
 
-        <a href="categorie.php?cat=vetements">Vêtements</a>
-        <a href="categorie.php?cat=chaussures">Chaussures</a>
-        <a href="categorie.php?cat=accessoires">Accessoires</a>
-        <a href="categorie.php?cat=mobilier">Mobilier</a>
-    <?php if(isset($_SESSION["user_id"])): ?>
-        <a class="drawer-sep" href="account.php">Mes annonces</a>
-        <a class="drawer-logout" href="connexion.php?logout=1">Se déconnecter</a>
-    <?php endif; ?>
-  </nav>
-</aside>
+                    <a href="categorie.php?cat=vetements">Vêtements</a>
+                    <a href="categorie.php?cat=chaussures">Chaussures</a>
+                    <a href="categorie.php?cat=accessoires">Accessoires</a>
+                    <a href="categorie.php?cat=mobilier">Mobilier</a>
+
+                    <a href="categorie.php?cat=sport">Sport</a>
+                    <a href="categorie.php?cat=jouets">Jouets</a>
+                    <a href="categorie.php?cat=electronique">Électronique</a>
+
+                    <?php if(isset($_SESSION["user_id"])): ?>
+
+                        <a class="drawer-sep" href="account.php">Mes annonces</a>
+                        <a class="drawer-logout" href="connexion.php?logout=1">Se déconnecter</a>
+
+                    <?php endif; ?>
+
+                </nav>
+        </aside>
 
         <div class="logo">
             <a href="index.php">
@@ -107,15 +132,11 @@ if ($tagSelectionne) {
 
         <div class="login">
             <?php if(isset($_SESSION["username"])): ?>
-
-        <a href="account.php"><?= htmlspecialchars($_SESSION["username"]) ?></a>
-
-<?php else: ?>
-
-    <a href="connexion.php">Se connecter</a>
-
-<?php endif; ?>
-</div>
+                <a href="account.php"><?= htmlspecialchars($_SESSION["username"]) ?></a>
+            <?php else: ?>
+                <a href="connexion.php">Se connecter</a>
+            <?php endif; ?>
+        </div>
     </div>
 </header>
 
@@ -129,22 +150,29 @@ if ($tagSelectionne) {
 <main>
     <section class="catalogue">
         <?php foreach ($produits as $produit): 
-            $slug = strtolower($produit["nom"]); 
-                $map = [
+            $nameLower = strtolower($produit["nom"]);
+
+            // mapping vers categorie.php?cat=
+            $map = [
                 "vêtements" => "vetements",
                 "vetements" => "vetements",
                 "chaussures" => "chaussures",
                 "accessoires" => "accessoires",
                 "mobilier" => "mobilier",
-                ];
-            $slug = $map[$slug] ?? "vetements";
-         ?>
-        <a class="card" href="categorie.php?cat=<?= urlencode($slug) ?>">
+                "sport" => "sport",
+                "jouets" => "jouets",
+                "électronique" => "electronique",
+                "electronique" => "electronique",
+            ];
+
+            $slug = $map[$nameLower] ?? "vetements";
+        ?>
+            <a class="card" href="categorie.php?cat=<?= urlencode($slug) ?>">
                 <img src="<?= htmlspecialchars($produit['image']); ?>" alt="<?= htmlspecialchars($produit['nom']); ?>">
-            <div class="overlay">
-                <h2><?= htmlspecialchars($produit['nom']); ?></h2>
-            </div>
-        </a>
+                <div class="overlay">
+                    <h2><?= htmlspecialchars($produit['nom']); ?></h2>
+                </div>
+            </a>
         <?php endforeach; ?>
     </section>
 </main>
@@ -158,6 +186,7 @@ if ($tagSelectionne) {
     </div>
     <p>© 2026 2eme-pioche tous droits réservés</p>
 </footer>
+
 <script>
 (function(){
   const btn = document.querySelector('.burger-btn');
@@ -191,9 +220,9 @@ if ($tagSelectionne) {
     if(e.key === 'Escape') closeMenu();
   });
 
-  // Ferme le menu quand on clique sur un lien
   drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 })();
 </script>
+
 </body>
 </html>

@@ -83,7 +83,7 @@ html{
 }
 
 .logo img{
-  max-height:210px; /* ✅ augmente/diminue ici pour desktop */
+  max-height:230px; /* modifier taille logo*/
   width:auto;
 }
 
@@ -467,7 +467,7 @@ footer{
   text-shadow: 0 3px 10px rgba(0,0,0,0.55);
 }
 
-/* ✅ Disposition identique à ta capture */
+
 .vetements-layout{
   width: min(980px, 92%);
   margin: 10px auto 30px;
@@ -732,6 +732,44 @@ footer{
   font-size: 13px;
   margin-bottom: 10px;
   color:#333;
+}
+.my-article-actions{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  align-items:center;
+  margin-top:10px;
+}
+/*Animation suppression carte*/
+.my-article-card{
+transition: all 0.35s ease;
+}
+
+.my-article-card.removing{
+opacity:0;
+transform: scale(0.9);
+pointer-events:none;
+}
+.btn-delete{
+  background: linear-gradient(to right, #ffd6d6, #ffb3b3);
+  border: none;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-weight: bold;
+  color: #8a0000;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+.btn-delete:hover{
+  background: linear-gradient(to right, #ffb3b3, #ff9999);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+}
+
+.btn-delete:active{
+transform: scale(0.96);
 }
 
 @media (max-width: 900px){

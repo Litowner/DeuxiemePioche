@@ -17,6 +17,18 @@ $categories = [
     "mobilier" => [
         "label" => "Mobilier",
         "image" => "assets/images/meubles.jpg"
+    ],
+    "sport" => [
+        "label" => "Sport",
+        "image" => "assets/images/sport.png"
+    ],
+    "jouets" => [
+        "label" => "Jouets",
+        "image" => "assets/images/jouets.png"
+    ],
+    "electronique" => [
+        "label" => "Électronique",
+        "image" => "assets/images/electronique.png"
     ]
 ];
 
@@ -44,182 +56,182 @@ if (file_exists($jsonPath)) {
 ?>
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><?= htmlspecialchars($categorie) ?></title>
-<link rel="stylesheet" href="assets/style.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title><?= htmlspecialchars($categorie) ?></title>
+        <link rel="stylesheet" href="assets/style.css">
+    </head>
 
-<body>
+    <body>
 
-<header>
-<div class="top-bar">
+        <header>
+            <div class="top-bar">
 
-<div class="menu-left">
-<button class="burger-btn" type="button">
-<span>Menu</span>
-<span class="burger"></span>
-</button>
-</div>
+            <div class="menu-left">
+            <button class="burger-btn" type="button">
+            <span>Menu</span>
+            <span class="burger"></span>
+            </button>
+            </div>
 
-<div class="logo">
-<a href="index.php">
-<img src="assets/images/logo.png" alt="2ème Pioche">
-</a>
-</div>
+            <div class="logo">
+            <a href="index.php">
+            <img src="assets/images/logo.png" alt="2ème Pioche">
+            </a>
+            </div>
 
-<div class="login">
-<?php if(isset($_SESSION["username"])): ?>
-<a href="account.php"><?= htmlspecialchars($_SESSION["username"]) ?></a>
-<?php else: ?>
-<a href="connexion.php">Se connecter</a>
-<?php endif; ?>
-</div>
+            <div class="login">
+            <?php if(isset($_SESSION["username"])): ?>
+            <a href="account.php"><?= htmlspecialchars($_SESSION["username"]) ?></a>
+            <?php else: ?>
+            <a href="connexion.php">Se connecter</a>
+            <?php endif; ?>
+            </div>
 
-</div>
+            </div>
 
-<div class="menu-overlay" id="menuOverlay" hidden></div>
+            <div class="menu-overlay" id="menuOverlay" hidden></div>
 
-<aside class="menu-drawer" id="menuDrawer">
+            <aside class="menu-drawer" id="menuDrawer">
 
-<div class="drawer-top">
-<strong>Menu</strong>
-<button class="drawer-close">✕</button>
-</div>
+                <div class="drawer-top">
+                    <strong>Menu</strong>
+                    <button class="drawer-close">✕</button>
+                </div>
 
-<nav class="drawer-links">
+                    <nav class="drawer-links">
 
-<!-- Accueil ajouté ici -->
-<a href="index.php" class="drawer-home">Accueil</a>
+                        <a href="index.php" class="drawer-home">Accueil</a>
 
-<?php foreach($categories as $slug => $cat): ?>
+                        <a href="categorie.php?cat=vetements">Vêtements</a>
+                        <a href="categorie.php?cat=chaussures">Chaussures</a>
+                        <a href="categorie.php?cat=accessoires">Accessoires</a>
+                        <a href="categorie.php?cat=mobilier">Mobilier</a>
 
-<a href="categorie.php?cat=<?= $slug ?>">
-<?= htmlspecialchars($cat["label"]) ?>
-</a>
+                        <a href="categorie.php?cat=sport">Sport</a>
+                        <a href="categorie.php?cat=jouets">Jouets</a>
+                        <a href="categorie.php?cat=electronique">Électronique</a>
 
-<?php endforeach; ?>
+                        <?php if(isset($_SESSION["user_id"])): ?>
 
-<?php if(isset($_SESSION["user_id"])): ?>
+                            <a class="drawer-sep" href="account.php">Mes annonces</a>
+                            <a class="drawer-logout" href="connexion.php?logout=1">Se déconnecter</a>
 
-<a class="drawer-sep" href="account.php">Mon compte</a>
-<a class="drawer-logout" href="connexion.php?logout=1">Déconnexion</a>
+                        <?php endif; ?>
 
-<?php endif; ?>
+                    </nav>
+            </aside>
 
-</nav>
-</aside>
-
-</header>
-
-
-<main class="vetements-page">
-
-<section class="vetements-hero">
-
-<img src="<?= htmlspecialchars($heroImage) ?>" alt="<?= htmlspecialchars($categorie) ?>">
-
-<h1><?= htmlspecialchars($categorie) ?></h1>
-
-</section>
+        </header>
 
 
-<section class="vetements-layout">
+        <main class="vetements-page">
 
-<aside class="vetements-sidebar">
+        <section class="vetements-hero">
 
-<a href="#" class="side-link">Pulls, gilets et sweats</a>
-<a href="#" class="side-link">Pantalons, jeans et shorts</a>
-<a href="#" class="side-link">Blouses et chemises</a>
-<a href="#" class="side-link">T-shirts et tops</a>
-<a href="#" class="side-link">Vestes et manteaux</a>
+        <img src="<?= htmlspecialchars($heroImage) ?>" alt="<?= htmlspecialchars($categorie) ?>">
 
-</aside>
+        <h1><?= htmlspecialchars($categorie) ?></h1>
+
+        </section>
 
 
-<section class="vetements-products">
+        <section class="vetements-layout">
 
-<?php if (empty($articles)): ?>
+        <aside class="vetements-sidebar">
 
-<p style="padding:10px 0;">Aucun article disponible.</p>
+        <a href="#" class="side-link">Pulls, gilets et sweats</a>
+        <a href="#" class="side-link">Pantalons, jeans et shorts</a>
+        <a href="#" class="side-link">Blouses et chemises</a>
+        <a href="#" class="side-link">T-shirts et tops</a>
+        <a href="#" class="side-link">Vestes et manteaux</a>
 
-<?php else: ?>
-
-<?php foreach($articles as $a): ?>
-
-<article class="product-card">
-
-<div class="product-img">
-<img src="<?= htmlspecialchars($a["image"]) ?>">
-</div>
-
-<div class="product-info">
-
-<h3><?= htmlspecialchars($a["titre"]) ?></h3>
-
-<div class="product-price">
-CHF <?= htmlspecialchars($a["prix"]) ?>
-</div>
-
-<a class="buy-btn" href="article.php?id=<?= urlencode($a["id"]) ?>">
-Consulter l'offre
-</a>
-
-</div>
-
-</article>
-
-<?php endforeach; ?>
-
-<?php endif; ?>
-
-</section>
-
-</section>
-
-</main>
+        </aside>
 
 
-<footer>
+        <section class="vetements-products">
 
-<div class="footer-links">
-<span>Aide et contact</span>
-<span>Conditions d'utilisation</span>
-<span>Politique de confidentialité</span>
-<span>Concept</span>
-</div>
+        <?php if (empty($articles)): ?>
 
-<p>©2026 2eme-pioche Service SA tous droits réservés</p>
+        <p style="padding:10px 0;">Aucune annonce disponible.</p>
 
-</footer>
+        <?php else: ?>
+
+        <?php foreach($articles as $a): ?>
+
+        <article class="product-card">
+
+        <div class="product-img">
+        <img src="<?= htmlspecialchars($a["image"]) ?>">
+        </div>
+
+        <div class="product-info">
+
+        <h3><?= htmlspecialchars($a["titre"]) ?></h3>
+
+        <div class="product-price">
+        CHF <?= htmlspecialchars($a["prix"]) ?>
+        </div>
+
+        <a class="buy-btn" href="article.php?id=<?= urlencode($a["id"]) ?>">
+        Consulter l'offre
+        </a>
+
+        </div>
+
+        </article>
+
+        <?php endforeach; ?>
+
+        <?php endif; ?>
+
+        </section>
+
+        </section>
+
+        </main>
 
 
-<script>
-(function(){
-const btn = document.querySelector('.burger-btn');
-const drawer = document.getElementById('menuDrawer');
-const overlay = document.getElementById('menuOverlay');
-const closeBtn = document.querySelector('.drawer-close');
+        <footer>
 
-function openMenu(){
-drawer.classList.add('is-open');
-overlay.hidden = false;
-document.body.style.overflow = 'hidden';
-}
+        <div class="footer-links">
+        <span>Aide et contact</span>
+        <span>Conditions d'utilisation</span>
+        <span>Politique de confidentialité</span>
+        <span>Concept</span>
+        </div>
 
-function closeMenu(){
-drawer.classList.remove('is-open');
-overlay.hidden = true;
-document.body.style.overflow = '';
-}
+        <p>©2026 2eme-pioche Service SA tous droits réservés</p>
 
-btn.addEventListener('click', openMenu);
-closeBtn.addEventListener('click', closeMenu);
-overlay.addEventListener('click', closeMenu);
+        </footer>
 
-})();
-</script>
 
-</body>
+        <script>
+        (function(){
+        const btn = document.querySelector('.burger-btn');
+        const drawer = document.getElementById('menuDrawer');
+        const overlay = document.getElementById('menuOverlay');
+        const closeBtn = document.querySelector('.drawer-close');
+
+        function openMenu(){
+        drawer.classList.add('is-open');
+        overlay.hidden = false;
+        document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu(){
+        drawer.classList.remove('is-open');
+        overlay.hidden = true;
+        document.body.style.overflow = '';
+        }
+
+        btn.addEventListener('click', openMenu);
+        closeBtn.addEventListener('click', closeMenu);
+        overlay.addEventListener('click', closeMenu);
+
+        })();
+        </script>
+
+    </body>
 </html>

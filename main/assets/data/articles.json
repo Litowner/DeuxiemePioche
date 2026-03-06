@@ -1,13 +1,24 @@
 [
     {
-        "id": "75511830-1974-48ac-80cb-acf6cd339701",
+        "id": "6006fabe-f053-417f-a825-dc516f0584fa",
         "user_id": "812a309d-44d7-4427-8ac9-9313718144a7",
         "username": "paul",
-        "titre": "Manteau en laine",
-        "description": "de qualité",
-        "prix": "29.00",
-        "categorie": "Vêtements",
-        "image": "assets\/users\/812a309d-44d7-4427-8ac9-9313718144a7\/articles\/75511830-1974-48ac-80cb-acf6cd339701_chausssures.jpg",
-        "created_at": "2026-03-05 10:44:28"
+        "titre": "super code nul achier",
+        "description": "J'AI pas envie de d'écrire mon annonce, elle est eclatée au sol et c'est vraiment de la merde ce que je suis entrain de faire",
+        "prix": "1239.12",
+        "categorie": "Accessoires",
+        "image": "assets\/users\/812a309d-44d7-4427-8ac9-9313718144a7\/articles\/6006fabe-f053-417f-a825-dc516f0584fa_USAF_F-16A_F-15C_F-15E_Desert_Storm_edit2.jpg",
+        "created_at": "2026-03-05 23:37:57"
+    },
+    {
+        "id": "9373f629-1b4d-4bf2-adc7-5a32577be91a",
+        "user_id": "812a309d-44d7-4427-8ac9-9313718144a7",
+        "username": "paul",
+        "titre": "carré dans l'axe",
+        "description": "un splash war thunder de zinzin",
+        "prix": "12.00",
+        "categorie": "Jouets",
+        "image": "assets\/users\/812a309d-44d7-4427-8ac9-9313718144a7\/articles\/9373f629-1b4d-4bf2-adc7-5a32577be91a_splashWT.png",
+        "created_at": "2026-03-06 00:26:21"
     }
 ]
